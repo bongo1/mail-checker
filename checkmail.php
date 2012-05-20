@@ -210,12 +210,11 @@ class MailChecker
 
 	public function GetMXs()
 	{
-		$host = substr(strrchr($this->address, '@'), 1);
 		$mxhosts = Array();
 		$weight = Array();
-		getmxrr($host, $mxhosts, $weight);
+		getmxrr($this->domain, $mxhosts, $weight);
 		if (empty($mxhosts) || $mxhosts[0] == null)
-			return Array(Array(0, $host));
+			return Array(Array(0, $this->domain));
 		$hosts = array_map(null, $weight, $mxhosts);
 		usort($hosts, function ($a, $b) {return $a[0]-$b[0];});
 		return $hosts;
